@@ -1,0 +1,20 @@
+<%= content_for :render_async %>
+<%= content_for :deckoverview_async %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Team9Selt</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all'%>
+    <%= javascript_include_tag 'application'%>
+  </head>
+
+  <body>
+    <div class="container-fluid text-center">
+      <h1>TEAM 9 CARD MANAGEMENT</h1>
+    </div>
+    <%= yield %>
+  </body>
+</html>
