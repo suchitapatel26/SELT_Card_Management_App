@@ -1,0 +1,103 @@
+<div class="row rounded border border-dark" style="margin-bottom: 15px; background-color: #b8b7b7; padding: 20px">
+
+  <div class="col-6">
+    <h4>Game Stats:</h4>
+    <div class="row">
+      <p class="col-6">Number of TOTAL players:</p>
+      <p class="col-6"><%= User.where(active_session: current_user.active_session).count%></p>
+    </div>
+    <% User.where(active_session: current_user.active_session).each do |user| %>
+      <div class="row">
+        <div class="col-6"> <%= user.name + "'s Number of Cards:" %></div>
+        <div class="col-6"> <%= Card.where(pile_id: user.account_id).count %></div>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-6" style="padding-top: 15px;">
+    <h5> Scoreboard: </h5>
+    <% User.where(active_session: current_user.active_session).each do |user| %>
+      <div class="row">
+        <div class="col-6"> <%= user.name %> </div>
+        <div class="col-6"> <%= Score.find_by(email: user.email)[:score] %></div>
+      </div>
+    <% end %>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-6">
+    <%= button_to 'Draw Card', users_draw_path, class: 'btn' %>
+    <%= form_with url: users_update_path do |f| %>
+      <table class="table-of-cards rounded">
+        <thead>
+        <tr>
+          <th style="padding: 15px">List of Your Cards</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% if @hand_cards != nil %>
+          <% @hand_cards.each do |card| %>
+            <tr>
+              <td style="padding-left: 15px; padding-bottom: 15px;">
+                <%= image_tag(card[:card_value].to_s + '_' + card[:card_suit] + '.png', width: 100, height: 150) %>
+                <%#= card[:card_value] + ' of ' + card[:card_suit] %>
+              </td>
+              <td style="padding-right: 15px; padding-bottom: 15px;">
+                <%= check_box_tag("selected_card[#{card[:id]}]", "1", false, class: 'checkbox') %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+        </tbody>
+      </table>
+
+      <h4>Choose which action to take with selected cards:</h4>
+      <%= f.submit "Discard", class: 'btn' %>
+      <%= f.submit "Toggle Visibility", class: 'btn' %>
+      <h6 style="padding-top: 15px"> -- OR -- </h6>
+      <div>
+        <label> Send selected cards to: </label>
+        <%= f.select :player_id, User.where.not(account_id: current_user.account_id).where(active_session: current_user.active_session).collect{ |p| [p.name, p.account_id]}, include_blank: true %>
+        <%= f.submit "Send", class: 'btn' %>
+      </div>
+    <% end  %>
+  </div>
+  <div class="col-6">
+    <table class="table-of-cards rounded">
+      <thead>
+      <tr>
+        <th style="padding: 15px">List of Visible Cards</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @visible_cards != nil %>
+        <% @visible_cards.each do |card| %>
+          <tr>
+            <td style="padding-left: 15px; padding-bottom: 15px;">
+              <%= @visible_users.where(account_id: card[:pile_id]).pluck(:name)%>
+            </td>
+            <td style="padding-left: 15px; padding-bottom: 15px;">
+              <%= image_tag(card[:card_value].to_s + '_' + card[:card_suit] + '.png', width: 100, height: 150) %>
+              <%#= card[:card_value] + ' of ' + card[:card_suit] %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<hr>
+
+<div class="text-center">
+  <% if @current_user %>
+    <%= button_to 'Add 10 to Your Score', users_increment_score_path, class: 'btn col-2'%>
+    <%#= @current_user_score[:score] %>
+    <%= button_to 'Subtract 10 from Your Score', users_decrement_score_path, class: 'btn col-2' %>
+  <% end %>
+</div>
+<hr>
+
+

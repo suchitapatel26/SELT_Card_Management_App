@@ -1,0 +1,16 @@
+<div class="container text-center">
+  <% if flash[:notice] %>
+    <div class="flash-message rounded">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+  <h1>Welcome!</h1>
+  <div>
+    <% if current_user %>
+      Signed in as <%= current_user.name %>
+      <%= link_to 'sign out', signout_path %>
+    <% else %>
+      <%= link_to 'Sign in with Google', '/auth/google_oauth2', class: "btn"%>
+    <% end %>
+  </div>
+</div>

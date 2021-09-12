@@ -1,0 +1,44 @@
+
+
+<div class="container">
+  <div class="sticky-top border border-dark rounded col-12" style="background-color: white; padding: 25px;">
+  <div class="row col-12 text-center">
+    <h1>Player Center</h1>
+  </div>
+  <hr>
+  <div class="row align-middle">
+    <div class="col-6"><input type="button" id="perform-turn" value="PERFORM TURN" class="btn col-6" style="height: 100%; font-weight: bolder"/></div>
+    <div class="col-6 text-right">
+      <% if @current_user %>
+        Signed in as <%= @current_user.name %>
+        <%= link_to 'Sign Out', signout_path, class: 'btn' %>
+      <% end %>
+      <div>
+        <label>Session Code: </label>
+        <%= current_user[:active_session] %>
+      </div>
+    </div>
+  </div>
+  </div>
+  <% if flash[:notice] %>
+    <div class="flash-message text-center rounded">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+  <br>
+  <%= render_async user_hand_path, toggle: { selector: '#perform-turn', event: :click, start:true}, interval: 2000%>
+
+  <div class="row">
+    <%= link_to 'Return to Decks', cards_path, class: 'btn' %>
+  </div>
+
+</div>
+
+
+<script>
+    var turnButton = document.getElementById('perform-turn')
+    turnButton.addEventListener('click', function() {
+        if (turnButton.value === 'PERFORM TURN') {turnButton.value = 'DONE WITH TURN'}
+        else {turnButton.value = "PERFORM TURN"}
+    })
+</script>

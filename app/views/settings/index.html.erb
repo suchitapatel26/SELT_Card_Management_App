@@ -1,0 +1,51 @@
+<style>
+    .btn {
+        background-color: #b8b8b8;
+        border: none;
+        padding: 10px;
+        border: 2px solid black;
+        border-radius: 5px;
+    }
+
+    .btn:hover {
+        background-color: black;
+        color: white;
+    }
+
+    .btn:focus {
+        outline: none !important;
+        box-shadow: none;
+    }
+
+    .col-form-label {
+        font-family: Verdana;
+    }
+
+    .centered {
+        position: fixed;
+        left: 50%;
+        transform: translate(-50%);
+    }
+</style>
+
+<div class="centered">
+<h1 style="color: gray; font-family: Verdana"> Card Management Settings</h1>
+  <hr>
+  <br>
+
+<%= form_tag sessions_createSession_path, :class => 'form' do %>
+  <%= label :settings, :num_players, 'Number of Players', :class => 'col-form-label'%>
+  <%= select :settings, :num_players,['1','2','3','4','5','6','7','8','9','10'], {}, {:class => 'form-control col-1'}%>
+<br>
+  <br>
+  <%= label :settings, :num_decks, 'Number of Decks', :class => 'col-form-label'%>
+  <%= select :settings, :num_decks, ['1','2','3','4','5','6','7','8','9','10'], {}, {:class => 'form-control col-1'}%>
+<br>
+  <br>
+  <%= label :settings, :card_options, 'Card Options', :class => 'col-form-label'  %>
+  <%= select :settings, :card_options, ['full deck','random half deck','only black cards','only red cards'], {}, {:class => 'form-control col-1'} %>
+<br>
+  <br>
+  <%= submit_tag "Save Settings", class: 'btn'%>
+<% end %>
+</div>
