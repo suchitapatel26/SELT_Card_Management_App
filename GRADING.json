@@ -1,0 +1,8 @@
+{
+  "GROUP": "G009",
+  "ALL_SPRINTS": {
+    "SPRINT1_URL": "https://selt2020-g009-sprint1.herokuapp.com/cards",
+    "SPRINT2_URL": "https://selt2020-g009-sprint2.herokuapp.com/sessions/new",
+    "SPRINT3_URL": "https://selt2020-g009-sprint3.herokuapp.com/sessions/new"
+  }
+}
